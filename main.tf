@@ -71,9 +71,9 @@ resource "aws_security_group" "Jenkins-SecurityGroup" {
   }
 }
 
- resource "tls_private_key" "mykey" {
-  algorithm   = "RSA"
-  rsa_bits = 4096
+resource "tls_private_key" "mykey" {
+  algorithm = "RSA"
+  rsa_bits  = 4096
 }
 
 
