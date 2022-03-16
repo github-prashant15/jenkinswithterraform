@@ -21,9 +21,18 @@ resource "aws_instance" "jenkins" {
   key_name                    = var.key_name
   vpc_security_group_ids      = [aws_security_group.jSecuirtygroup.id]
   subnet_id                   = var.subnet_id
-  user_data                   = ""
+  user_data                   = <<EOF
+#!/bin/bash
+sudo apt update -y 
+sudo apt install java -y
+sudo apt install default-jre -y
+wget -q -O - https://pkg.jenkins.io/debian-stable/jenkins.io.key | sudo apt-key add -
+sudo sh -c 'echo deb http://pkg.jenkins.io/debian-stable binary/ > /etc/apt/sources.list.d/jenkins.list'
+sudo apt install jenkins -y
+sudo systemctl start jenkins
+EOF
   tags = {
-    Name = "jenkins-server-1"
+    Name = "jenkins-server- 1"
   }
 }
 
