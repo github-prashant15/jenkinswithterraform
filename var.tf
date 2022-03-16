@@ -13,3 +13,7 @@ variable "key_name" {
 variable "subnet_id" {
   type = string
 }
+
+variable "namespace" {
+  type = string
+}

@@ -19,7 +19,7 @@ resource "aws_instance" "jenkins" {
   instance_type               = var.instance_type
   associate_public_ip_address = "true"
   key_name                    = var.key_name
-  vpc_security_group_ids      = [aws_security_group.jSecuirtygroup.id]
+  vpc_security_group_ids      = [aws_security_group.jenkins.id]
   subnet_id                   = var.subnet_id
   user_data                   = <<EOF
 #!/bin/bash
@@ -32,12 +32,12 @@ sudo apt install jenkins -y
 sudo systemctl start jenkins
 EOF
   tags = {
-    Name = "jenkins-server- 1"
+    Name = "${var.namespace}-Instance"
   }
 }
 
-resource "aws_security_group" "jSecuirtygroup" {
-  name        = "js-sg"
+resource "aws_security_group" "jenkins-sg" {
+  name        = "${var.namespace}-sg"
   description = "this is a security group for inbound traffic"
   vpc_id      = var.vpc_id
 
@@ -68,7 +68,7 @@ resource "aws_security_group" "jSecuirtygroup" {
   }
 
   tags = {
-    Name = "jkn_sg"
+    Name = "${var.namespace}-sg"
   }
 }
 
