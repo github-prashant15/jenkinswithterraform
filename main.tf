@@ -19,12 +19,11 @@ resource "aws_instance" "jenkins" {
   instance_type               = var.instance_type
   associate_public_ip_address = "true"
   key_name                    = var.key_name
-  vpc_security_group_ids      = [aws_security_group.jenkins.id]
+  vpc_security_group_ids      = [aws_security_group.Jenkins_Secuirtygroup.id]
   subnet_id                   = var.subnet_id
   user_data                   = <<EOF
 #!/bin/bash
 sudo apt update -y 
-sudo apt install java -y
 sudo apt install default-jre -y
 wget -q -O - https://pkg.jenkins.io/debian-stable/jenkins.io.key | sudo apt-key add -
 sudo sh -c 'echo deb http://pkg.jenkins.io/debian-stable binary/ > /etc/apt/sources.list.d/jenkins.list'
@@ -32,12 +31,12 @@ sudo apt install jenkins -y
 sudo systemctl start jenkins
 EOF
   tags = {
-    Name = "${var.namespace}-Instance"
+    Name = "jenkins-server-1"
   }
 }
 
-resource "aws_security_group" "jenkins-sg" {
-  name        = "${var.namespace}-sg"
+resource "aws_security_group" "Jenkins_Secuirtygroup" {
+  name        = "jenkinsSecuritygroup"
   description = "this is a security group for inbound traffic"
   vpc_id      = var.vpc_id
 
@@ -68,7 +67,7 @@ resource "aws_security_group" "jenkins-sg" {
   }
 
   tags = {
-    Name = "${var.namespace}-sg"
+    Name = "jenkinsSecuritygroup"
   }
 }
 
