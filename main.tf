@@ -18,7 +18,7 @@ resource "aws_instance" "jenkins" {
   ami                         = data.aws_ami.ubuntu.id
   instance_type               = var.instance_type
   associate_public_ip_address = "true"
-  key_name                    = var.key_name
+  key_name                    = aws_key_pair.mykey.key_name
   vpc_security_group_ids      = [aws_security_group.Jenkins-SecurityGroup.id]
   subnet_id                   = var.subnet_id
   user_data                   = <<EOF
@@ -41,7 +41,7 @@ resource "aws_security_group" "Jenkins-SecurityGroup" {
   vpc_id      = var.vpc_id
 
   ingress {
-    description = "TLS from VPC"
+    description = "this is securityGroup for jenkins port"
     from_port   = 8080
     to_port     = 8080
     protocol    = "tcp"
@@ -50,7 +50,7 @@ resource "aws_security_group" "Jenkins-SecurityGroup" {
   }
 
   ingress {
-    description = "TLS from VPC"
+    description = "this is securityGroup for ssh"
     from_port   = 22
     to_port     = 22
     protocol    = "tcp"
@@ -76,7 +76,8 @@ resource "aws_security_group" "Jenkins-SecurityGroup" {
   rsa_bits = 4096
 }
 
-resource "aws_key_pair" "deployer" {
+
+resource "aws_key_pair" "mykey" {
   key_name   = "${var.namespace}-key"
-  public_key = tls_private_key.mykey
-} 
+  public_key = tls_private_key.mykey.public_key_openssh
+}
