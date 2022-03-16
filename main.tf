@@ -19,7 +19,7 @@ resource "aws_instance" "jenkins" {
   instance_type               = var.instance_type
   associate_public_ip_address = "true"
   key_name                    = var.key_name
-  vpc_security_group_ids      = [aws_security_group.Jenkins_Secuirtygroup.id]
+  vpc_security_group_ids      = [aws_security_group.Jenkins-SecurityGroup.id]
   subnet_id                   = var.subnet_id
   user_data                   = <<EOF
 #!/bin/bash
@@ -35,7 +35,7 @@ EOF
   }
 }
 
-resource "aws_security_group" "Jenkins_Secuirtygroup" {
+resource "aws_security_group" "Jenkins-SecurityGroup" {
   name        = "jenkins-SG"
   description = "this is a security group for inbound traffic"
   vpc_id      = var.vpc_id
@@ -67,7 +67,7 @@ resource "aws_security_group" "Jenkins_Secuirtygroup" {
   }
 
   tags = {
-    Name = "jenkinsSecuritygroup"
+    Name = "jenkins-SG"
   }
 }
 
