@@ -14,20 +14,20 @@ data "aws_ami" "ubuntu" {
   owners = ["099720109477"]
 }
 
-resource "aws_instance" "web" {
+resource "aws_instance" "jenkins" {
   ami                         = data.aws_ami.ubuntu.id
   instance_type               = var.instance_type
   associate_public_ip_address = "true"
   key_name                    = var.key_name
-  vpc_security_group_ids      = [aws.security_groups.jkn_sg.name]
+  vpc_security_group_ids      = [aws_security_group.jSecuirtygroup.id]
   subnet_id                   = var.subnet_id
   user_data                   = ""
   tags = {
-    Name = "jenkins-server"
+    Name = "jenkins-server-1"
   }
 }
 
-resource "aws_security_group" "jkn_sg" {
+resource "aws_security_group" "jSecuirtygroup" {
   name        = "js-sg"
   description = "this is a security group for inbound traffic"
   vpc_id      = var.vpc_id
@@ -59,7 +59,7 @@ resource "aws_security_group" "jkn_sg" {
   }
 
   tags = {
-    Name = "jkn-sg"
+    Name = "jkn_sg"
   }
 }
 
