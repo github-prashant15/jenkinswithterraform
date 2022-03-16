@@ -31,12 +31,12 @@ sudo apt install jenkins -y
 sudo systemctl start jenkins
 EOF
   tags = {
-    Name = "jenkins-server-1"
+    Name = "${var.namespace}-server"
   }
 }
 
 resource "aws_security_group" "Jenkins-SecurityGroup" {
-  name        = "jenkins-SG"
+  name        = "${var.namespace}-SG"
   description = "this is a security group for inbound traffic"
   vpc_id      = var.vpc_id
 
@@ -67,8 +67,16 @@ resource "aws_security_group" "Jenkins-SecurityGroup" {
   }
 
   tags = {
-    Name = "jenkins-SG"
+    Name = "${var.namespace}-SG"
   }
 }
 
- 
+ resource "tls_private_key" "mykey" {
+  algorithm   = "RSA"
+  rsa_bits = 4096
+}
+
+resource "aws_key_pair" "deployer" {
+  key_name   = "${var.namespace}-key"
+  public_key = tls_private_key.mykey
+} 

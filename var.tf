@@ -14,6 +14,6 @@ variable "subnet_id" {
   type = string
 }
 
-# variable "namespace" {
-#   type = string
-# }
+variable "namespace" {
+  type = string
+}
