@@ -36,7 +36,7 @@ EOF
 }
 
 resource "aws_security_group" "Jenkins_Secuirtygroup" {
-  name        = "jenkinsSecuritygroup"
+  name        = "jenkins-SG"
   description = "this is a security group for inbound traffic"
   vpc_id      = var.vpc_id
 
