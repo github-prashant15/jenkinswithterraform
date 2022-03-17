@@ -31,7 +31,7 @@ sudo apt install jenkins -y
 sudo systemctl start jenkins
 EOF
   tags = {
-    Name = "${var.namespace}-server"
+    Name = "${var.namespace}-"
   }
 }
 
@@ -78,6 +78,6 @@ resource "tls_private_key" "mykey" {
 
 
 resource "aws_key_pair" "mykey" {
-  key_name   = "${var.namespace}-"
+  key_name   = "${var.namespace}-keys"
   public_key = tls_private_key.mykey.public_key_openssh
 }
