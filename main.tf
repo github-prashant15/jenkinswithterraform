@@ -67,7 +67,7 @@ resource "aws_security_group" "Jenkins-SecurityGroup" {
   }
 
   tags = {
-    Name = "${var.namespace}-SG"
+    Name = "${var.namespace}-sg"
   }
 }
 
