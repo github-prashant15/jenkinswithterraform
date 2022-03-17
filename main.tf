@@ -78,6 +78,6 @@ resource "tls_private_key" "mykey" {
 
 
 resource "aws_key_pair" "mykey" {
-  key_name   = "${var.namespace}-"
+  key_name   = "${var.namespace}-id"
   public_key = tls_private_key.mykey.public_key_openssh
 }
